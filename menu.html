@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restik - Демо меню</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Все предыдущие стили остаются без изменений */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: #e63946;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .logo-text span {
+            color: #e63946;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-toggle {
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .cart-toggle:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .admin-toggle {
+            background: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-toggle:hover {
+            background: #2d3748;
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            background: white;
+            color: #e63946;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        /* Menu section */
+        .menu-section {
+            flex: 2;
+        }
+
+        .restaurant-info {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .restaurant-title {
+            font-size: 28px;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .restaurant-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .restaurant-details {
+            display: flex;
+            gap: 20px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .restaurant-details i {
+            color: #e63946;
+            margin-right: 5px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .category-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 30px;
+            padding: 10px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: #e63946;
+            color: white;
+            border-color: #e63946;
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-image {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .item-info {
+            padding: 20px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .item-price {
+            color: #e63946;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-weight {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .add-to-cart {
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #d32f2f;
+        }
+
+        /* Admin controls for menu items */
+        .item-admin-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-item:hover .item-admin-controls {
+            opacity: 1;
+        }
+
+        .admin-edit-btn, .admin-delete-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .admin-edit-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .admin-delete-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        /* Cart sidebar */
+        .cart-sidebar {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .cart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 100px;
+        }
+
+        .cart-title {
+            font-size: 22px;
+            color: #222;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-cart {
+            background: none;
+            border: none;
+            color: #e63946;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .clear-cart:hover {
+            text-decoration: underline;
+        }
+
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-info p {
+            color: #e63946;
+            font-weight: 600;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: #f5f5f5;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .item-quantity {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .remove-item:hover {
+            color: #e63946;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px 0;
+            color: #888;
+        }
+
+        .cart-empty i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .cart-summary {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .checkout-btn:hover {
+            background: #3d8b40;
+        }
+
+        .checkout-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .messenger-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .whatsapp-btn, .telegram-btn {
+            flex: 1;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .whatsapp-btn:hover {
+            background: #1da851;
+        }
+
+        .telegram-btn {
+            background: #0088cc;
+            color: white;
+        }
+
+        .telegram-btn:hover {
+            background: #0077b3;
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            display: none;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 100px;
+        }
+
+        .admin-title {
+            font-size: 22px;
+            color: #222;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-title i {
+            color: #4a5568;
+        }
+
+        .admin-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4a5568;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .admin-btn {
+            background: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .admin-btn:hover {
+            background: #2d3748;
+        }
+
+        .admin-btn.primary {
+            background: #4CAF50;
+        }
+
+        .admin-btn.primary:hover {
+            background: #3d8b40;
+        }
+
+        .admin-btn.danger {
+            background: #f44336;
+        }
+
+        .admin-btn.danger:hover {
+            background: #d32f2f;
+        }
+
+        .config-value {
+            background: #f8f9fa;
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .config-value strong {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .items-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 5px;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .list-item-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .list-item-btn.edit {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .list-item-btn.delete {
+            background: #f44336;
+            color: white;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal h3 {
+            margin-bottom: 20px;
+            color: #222;
+            font-size: 22px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.cancel {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .modal-btn.submit {
+            background: #e63946;
+            color: white;
+        }
+
+        .modal-btn.submit:hover {
+            background: #d32f2f;
+        }
+
+        /* Status message */
+        .status-message {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        /* Tabs for admin panel */
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .admin-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: #4a5568;
+            border-bottom-color: #4a5568;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: #ddd;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .cart-sidebar, .admin-panel {
+                max-width: 100%;
+            }
+            
+            .cart-container, .admin-container {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-items {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .restaurant-details {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .messenger-buttons, .admin-tabs {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories {
+                padding-bottom: 15px;
+            }
+            
+            .modal {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fas fa-utensils"></i></div>
+                <div class="logo-text">Rest<span>ik</span></div>
+            </a>
+            <div class="header-controls">
+                <button class="admin-toggle" id="adminToggle">
+                    <i class="fas fa-cog"></i> Админ-панель
+                </button>
+                <button class="cart-toggle" id="cartToggle">
+                    <i class="fas fa-shopping-cart"></i> Корзина
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Menu Section -->
+        <section class="menu-section">
+            <div class="restaurant-info">
+                <h1 class="restaurant-title" id="restaurantTitle">Демо-ресторан "Вкусная точка"</h1>
+                <p class="restaurant-description" id="restaurantDescription">Мы готовим самые вкусные блюда из свежайших продуктов. Приятного аппетита!</p>
+                <div class="restaurant-details">
+                    <div><i class="fas fa-clock"></i> <span id="restaurantHours">10:00 - 23:00</span></div>
+                    <div><i class="fas fa-map-marker-alt"></i> <span id="restaurantAddress">ул. Примерная, 123</span></div>
+                    <div><i class="fas fa-star"></i> <span id="restaurantRating">4.8 (256 отзывов)</span></div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="categories" id="categories">
+                <!-- Categories will be generated by JavaScript -->
+            </div>
+
+            <!-- Menu Items -->
+            <div class="menu-items" id="menuItems">
+                <!-- Menu items will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar" id="cartSidebar">
+            <div class="cart-container">
+                <h2 class="cart-title">
+                    Ваш заказ
+                    <button class="clear-cart" id="clearCart">Очистить</button>
+                </h2>
+                
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be generated by JavaScript -->
+                    <div class="cart-empty" id="emptyCart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Ваша корзина пуста</p>
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <div class="cart-total">
+                        <span>Итого:</span>
+                        <span id="totalPrice">0 ₽</span>
+                    </div>
+                    <button class="checkout-btn" id="checkoutBtn" disabled>Оформить заказ</button>
+                    
+                    <div class="messenger-buttons">
+                        <button class="whatsapp-btn" id="whatsappBtn" disabled>
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button class="telegram-btn" id="telegramBtn" disabled>
+                            <i class="fab fa-telegram"></i> Telegram
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Admin Panel -->
+        <aside class="admin-panel" id="adminPanel">
+            <div class="admin-container">
+                <h2 class="admin-title">
+                    <i class="fas fa-cog"></i> Панель администратора
+                </h2>
+                
+                <!-- Admin Tabs -->
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-tab="restaurant">Ресторан</button>
+                    <button class="admin-tab" data-tab="categories">Категории</button>
+                    <button class="admin-tab" data-tab="menu">Меню</button>
+                    <button class="admin-tab" data-tab="config">Конфигурация</button>
+                </div>
+                
+                <!-- Status Message -->
+                <div class="status-message" id="adminStatus"></div>
+                
+                <!-- Restaurant Settings Tab -->
+                <div class="tab-content active" id="restaurantTab">
+                    <div class="admin-section">
+                        <h3 class="section-title">Настройки ресторана</h3>
+                        <div class="form-group">
+                            <label for="adminRestaurantTitle">Название ресторана</label>
+                            <input type="text" id="adminRestaurantTitle" value="Демо-ресторан 'Вкусная точка'">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminRestaurantDescription">Описание ресторана</label>
+                            <textarea id="adminRestaurantDescription">Мы готовим самые вкусные блюда из свежайших продуктов. Приятного аппетита!</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminRestaurantHours">Часы работы</label>
+                            <input type="text" id="adminRestaurantHours" value="10:00 - 23:00">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminRestaurantAddress">Адрес</label>
+                            <input type="text" id="adminRestaurantAddress" value="ул. Примерная, 123">
+                        </div>
+                        <div class="form-group">
+                            <label for="adminRestaurantRating">Рейтинг</label>
+                            <input type="text" id="adminRestaurantRating" value="4.8 (256 отзывов)">
+                        </div>
+                        <button class="admin-btn primary" id="saveRestaurantSettings">Сохранить настройки</button>
+                    </div>
+                </div>
+                
+                <!-- Categories Management Tab -->
+                <div class="tab-content" id="categoriesTab">
+                    <div class="admin-section">
+                        <h3 class="section-title">Управление категориями</h3>
+                        <div class="form-group">
+                            <label for="newCategoryName">Название новой категории</label>
+                            <input type="text" id="newCategoryName" placeholder="Например: Супы">
+                        </div>
+                        <div class="form-group">
+                            <label for="newCategoryId">ID категории (латинскими буквами)</label>
+                            <input type="text" id="newCategoryId" placeholder="Например: soups">
+                        </div>
+                        <button class="admin-btn primary" id="addCategoryBtn">Добавить категорию</button>
+                    </div>
+                    
+                    <div class="admin-section">
+                        <h3 class="section-title">Существующие категории</h3>
+                        <div class="items-list" id="categoriesList">
+                            <!-- Categories will be listed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Management Tab -->
+                <div class="tab-content" id="menuTab">
+                    <div class="admin-section">
+                        <h3 class="section-title">Добавить новое блюдо</h3>
+                        <div class="form-group">
+                            <label for="newItemName">Название блюда</label>
+                            <input type="text" id="newItemName" placeholder="Например: Борщ">
+                        </div>
+                        <div class="form-group">
+                            <label for="newItemDescription">Описание блюда</label>
+                            <textarea id="newItemDescription" placeholder="Опишите блюдо..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="newItemPrice">Цена (в рублях)</label>
+                            <input type="number" id="newItemPrice" placeholder="Например: 350" min="0" step="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="newItemWeight">Вес/объем</label>
+                            <input type="text" id="newItemWeight" placeholder="Например: 300г">
+                        </div>
+                        <div class="form-group">
+                            <label for="newItemCategory">Категория</label>
+                            <select id="newItemCategory">
+                                <!-- Categories will be populated by JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="newItemImage">URL изображения</label>
+                            <input type="text" id="newItemImage" placeholder="https://example.com/image.jpg">
+                            <small style="color: #666; font-size: 12px;">Используйте прямую ссылку на изображение</small>
+                        </div>
+                        <button class="admin-btn primary" id="addMenuItemBtn">Добавить блюдо</button>
+                    </div>
+                    
+                    <div class="admin-section">
+                        <h3 class="section-title">Существующие блюда</h3>
+                        <div class="items-list" id="menuItemsList">
+                            <!-- Menu items will be listed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Configuration Tab -->
+                <div class="tab-content" id="configTab">
+                    <div class="admin-section">
+                        <h3 class="section-title">Настройки мессенджеров</h3>
+                        <div class="form-group">
+                            <label for="adminWhatsAppPhone">Номер WhatsApp</label>
+                            <input type="text" id="adminWhatsAppPhone" value="79991234567" placeholder="79991234567">
+                            <small style="color: #666; font-size: 12px;">В международном формате без знака +</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminTelegramContact">Telegram контакт</label>
+                            <input type="text" id="adminTelegramContact" value="restik_demo_bot" placeholder="username или номер">
+                        </div>
+                        <button class="admin-btn primary" id="saveConfigBtn">Сохранить настройки</button>
+                    </div>
+                    
+                    <div class="admin-section">
+                        <h3 class="section-title">Экспорт/Импорт данных</h3>
+                        <div class="form-group">
+                            <label>Текущие данные ресторана</label>
+                            <div class="config-value">
+                                <strong>Все данные хранятся в localStorage браузера</strong>
+                                <span id="dataStatus">Данные загружены</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="admin-btn" id="exportDataBtn">Экспортировать данные</button>
+                            <button class="admin-btn" id="importDataBtn">Импортировать данные</button>
+                            <button class="admin-btn danger" id="resetDataBtn">Сбросить к начальным</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal for customer details -->
+    <div class="modal-overlay" id="customerModal">
+        <div class="modal">
+            <h3>Данные для заказа</h3>
+            <form id="customerForm">
+                <div class="form-group">
+                    <label for="customerName">Ваше имя *</label>
+                    <input type="text" id="customerName" required placeholder="Иван Иванов">
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone">Номер телефона *</label>
+                    <input type="tel" id="customerPhone" required placeholder="+7 (999) 123-45-67">
+                </div>
+                <div class="form-group">
+                    <label for="customerAddress">Адрес доставки (если требуется)</label>
+                    <input type="text" id="customerAddress" placeholder="ул. Примерная, 123, кв. 45">
+                </div>
+                <div class="form-group">
+                    <label for="customerComment">Комментарий к заказу</label>
+                    <textarea id="customerComment" placeholder="Например: Без лука, позвонить за 15 минут до доставки"></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="modal-btn cancel" id="cancelOrder">Отмена</button>
+                    <button type="submit" class="modal-btn submit">Отправить заказ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2023 Restik Demo. Все права защищены.</p>
+        <p>Это демонстрационная страница для примера работы меню ресторана.</p>
+    </footer>
+
+    <script>
+        // Initial data
+        const initialData = {
+            menu: [
+                {
+                    id: 1,
+                    name: "Стейк Рибай",
+                    description: "Мраморная говядина с розмарином и овощами гриль",
+                    price: 1290,
+                    weight: "350г",
+                    category: "hot",
+                    image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                },
+                {
+                    id: 2,
+                    name: "Салат Цезарь",
+                    description: "С курицей гриль, пармезаном и соусом цезарь",
+                    price: 590,
+                    weight: "280г",
+                    category: "salads",
+                    image: "https://images.unsplash.com/photo-1546793665-c74683f339c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                },
+                {
+                    id: 3,
+                    name: "Паста Карбонара",
+                    description: "С беконом, пармезаном и сливочным соусом",
+                    price: 750,
+                    weight: "320г",
+                    category: "pasta",
+                    image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                },
+                {
+                    id: 4,
+                    name: "Бургер с говядиной",
+                    description: "С соусом барбекю, сыром чеддер и картофелем фри",
+                    price: 690,
+                    weight: "450г",
+                    category: "burgers",
+                    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                },
+                {
+                    id: 5,
+                    name: "Тирамису",
+                    description: "Классический итальянский десерт с маскарпоне",
+                    price: 450,
+                    weight: "180г",
+                    category: "desserts",
+                    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                },
+                {
+                    id: 6,
+                    name: "Греческий салат",
+                    description: "Свежие овощи, фета, оливки и оливковое масло",
+                    price: 520,
+                    weight: "300г",
+                    category: "salads",
+                    image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                },
+                {
+                    id: 7,
+                    name: "Лосось на гриле",
+                    description: "С лимонным соусом и овощами на пару",
+                    price: 980,
+                    weight: "300г",
+                    category: "hot",
+                    image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                },
+                {
+                    id: 8,
+                    name: "Чизкейк Нью-Йорк",
+                    description: "Нежный чизкейк с ягодным соусом",
+                    price: 420,
+                    weight: "150г",
+                    category: "desserts",
+                    image: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                }
+            ],
+            categories: [
+                { id: "all", name: "Все блюда" },
+                { id: "hot", name: "Горячие блюда" },
+                { id: "salads", name: "Салаты" },
+                { id: "burgers", name: "Бургеры" },
+                { id: "pasta", name: "Паста" },
+                { id: "desserts", name: "Десерты" },
+                { id: "drinks", name: "Напитки" }
+            ],
+            restaurant: {
+                title: "Демо-ресторан \"Вкусная точка\"",
+                description: "Мы готовим самые вкусные блюда из свежайших продуктов. Приятного аппетита!",
+                hours: "10:00 - 23:00",
+                address: "ул. Примерная, 123",
+                rating: "4.8 (256 отзывов)"
+            },
+            config: {
+                whatsappPhone: "79991234567",
+                telegramContact: "restik_demo_bot",
+                restaurantName: "Вкусная точка"
+            }
+        };
+
+        // Application state
+        let state = {
+            menu: JSON.parse(localStorage.getItem('menuData')) || initialData.menu,
+            categories: JSON.parse(localStorage.getItem('categoriesData')) || initialData.categories,
+            restaurant: JSON.parse(localStorage.getItem('restaurantData')) || initialData.restaurant,
+            config: JSON.parse(localStorage.getItem('configData')) || initialData.config,
+            cart: JSON.parse(localStorage.getItem('cart')) || [],
+            currentCategory: 'all',
+            currentOrder: null,
+            isAdminMode: false,
+            editingItem: null,
+            editingCategory: null
+        };
+
+        // DOM elements
+        const elements = {
+            // Header
+            adminToggle: document.getElementById('adminToggle'),
+            cartToggle: document.getElementById('cartToggle'),
+            cartCount: document.getElementById('cartCount'),
+            
+            // Menu section
+            restaurantTitle: document.getElementById('restaurantTitle'),
+            restaurantDescription: document.getElementById('restaurantDescription'),
+            restaurantHours: document.getElementById('restaurantHours'),
+            restaurantAddress: document.getElementById('restaurantAddress'),
+            restaurantRating: document.getElementById('restaurantRating'),
+            categoriesContainer: document.getElementById('categories'),
+            menuItemsContainer: document.getElementById('menuItems'),
+            
+            // Cart section
+            cartSidebar: document.getElementById('cartSidebar'),
+            cartItemsContainer: document.getElementById('cartItems'),
+            emptyCart: document.getElementById('emptyCart'),
+            totalPrice: document.getElementById('totalPrice'),
+            checkoutBtn: document.getElementById('checkoutBtn'),
+            clearCart: document.getElementById('clearCart'),
+            whatsappBtn: document.getElementById('whatsappBtn'),
+            telegramBtn: document.getElementById('telegramBtn'),
+            
+            // Admin panel
+            adminPanel: document.getElementById('adminPanel'),
+            adminStatus: document.getElementById('adminStatus'),
+            
+            // Restaurant settings
+            adminRestaurantTitle: document.getElementById('adminRestaurantTitle'),
+            adminRestaurantDescription: document.getElementById('adminRestaurantDescription'),
+            adminRestaurantHours: document.getElementById('adminRestaurantHours'),
+            adminRestaurantAddress: document.getElementById('adminRestaurantAddress'),
+            adminRestaurantRating: document.getElementById('adminRestaurantRating'),
+            saveRestaurantSettings: document.getElementById('saveRestaurantSettings'),
+            
+            // Categories management
+            newCategoryName: document.getElementById('newCategoryName'),
+            newCategoryId: document.getElementById('newCategoryId'),
+            addCategoryBtn: document.getElementById('addCategoryBtn'),
+            categoriesList: document.getElementById('categoriesList'),
+            
+            // Menu management
+            newItemName: document.getElementById('newItemName'),
+            newItemDescription: document.getElementById('newItemDescription'),
+            newItemPrice: document.getElementById('newItemPrice'),
+            newItemWeight: document.getElementById('newItemWeight'),
+            newItemCategory: document.getElementById('newItemCategory'),
+            newItemImage: document.getElementById('newItemImage'),
+            addMenuItemBtn: document.getElementById('addMenuItemBtn'),
+            menuItemsList: document.getElementById('menuItemsList'),
+            
+            // Configuration
+            adminWhatsAppPhone: document.getElementById('adminWhatsAppPhone'),
+            adminTelegramContact: document.getElementById('adminTelegramContact'),
+            saveConfigBtn: document.getElementById('saveConfigBtn'),
+            exportDataBtn: document.getElementById('exportDataBtn'),
+            importDataBtn: document.getElementById('importDataBtn'),
+            resetDataBtn: document.getElementById('resetDataBtn'),
+            dataStatus: document.getElementById('dataStatus'),
+            
+            // Tabs
+            adminTabs: document.querySelectorAll('.admin-tab'),
+            tabContents: document.querySelectorAll('.tab-content'),
+            
+            // Modal
+            customerModal: document.getElementById('customerModal'),
+            customerForm: document.getElementById('customerForm'),
+            cancelOrder: document.getElementById('cancelOrder')
+        };
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            setupEventListeners();
+        });
+
+        // Initialize application
+        function initApp() {
+            // Load data from localStorage or initial data
+            loadData();
+            
+            // Render UI
+            updateRestaurantInfo();
+            renderCategories();
+            renderMenuItems();
+            updateCart();
+            renderAdminCategoriesList();
+            renderAdminMenuItemsList();
+            populateCategorySelect();
+            
+            // Update admin form values
+            updateAdminForms();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Toggle admin/cart mode
+            elements.adminToggle.addEventListener('click', toggleAdminMode);
+            elements.cartToggle.addEventListener('click', toggleCartMode);
+            
+            // Cart functionality
+            elements.clearCart.addEventListener('click', clearCart);
+            elements.checkoutBtn.addEventListener('click', showCustomerModal);
+            elements.whatsappBtn.addEventListener('click', sendToWhatsApp);
+            elements.telegramBtn.addEventListener('click', sendToTelegram);
+            elements.cancelOrder.addEventListener('click', hideCustomerModal);
+            elements.customerForm.addEventListener('submit', processOrder);
+            
+            // Admin functionality
+            elements.saveRestaurantSettings.addEventListener('click', saveRestaurantSettings);
+            elements.addCategoryBtn.addEventListener('click', addCategory);
+            elements.addMenuItemBtn.addEventListener('click', addMenuItem);
+            elements.saveConfigBtn.addEventListener('click', saveConfig);
+            elements.exportDataBtn.addEventListener('click', exportData);
+            elements.importDataBtn.addEventListener('click', importData);
+            elements.resetDataBtn.addEventListener('click', resetData);
+            
+            // Admin tabs
+            elements.adminTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    switchAdminTab(tabId);
+                });
+            });
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            // Data is already loaded into state object in initialization
+            updateDataStatus();
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('menuData', JSON.stringify(state.menu));
+            localStorage.setItem('categoriesData', JSON.stringify(state.categories));
+            localStorage.setItem('restaurantData', JSON.stringify(state.restaurant));
+            localStorage.setItem('configData', JSON.stringify(state.config));
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            
+            updateDataStatus();
+            showAdminStatus('Данные сохранены в localStorage', 'success');
+        }
+
+        // Update data status display
+        function updateDataStatus() {
+            const menuCount = state.menu.length;
+            const categoriesCount = state.categories.length;
+            elements.dataStatus.textContent = `Меню: ${menuCount} блюд, Категории: ${categoriesCount}`;
+        }
+
+        // Toggle between admin and cart mode
+        function toggleAdminMode() {
+            state.isAdminMode = !state.isAdminMode;
+            
+            if (state.isAdminMode) {
+                elements.cartSidebar.style.display = 'none';
+                elements.adminPanel.classList.add('active');
+                elements.adminToggle.innerHTML = '<i class="fas fa-user"></i> Выход';
+                elements.adminToggle.style.background = '#e63946';
+                
+                // Update admin forms with current data
+                updateAdminForms();
+            } else {
+                elements.cartSidebar.style.display = 'block';
+                elements.adminPanel.classList.remove('active');
+                elements.adminToggle.innerHTML = '<i class="fas fa-cog"></i> Админ-панель';
+                elements.adminToggle.style.background = '#4a5568';
+            }
+        }
+
+        function toggleCartMode() {
+            // This just ensures cart is visible when switching from admin mode
+            if (state.isAdminMode) {
+                toggleAdminMode();
+            }
+        }
+
+        // Switch admin tab
+        function switchAdminTab(tabId) {
+            // Update active tab
+            elements.adminTabs.forEach(tab => {
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Update active tab content
+            elements.tabContents.forEach(content => {
+                if (content.id === `${tabId}Tab`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        // Update restaurant info on main page
+        function updateRestaurantInfo() {
+            elements.restaurantTitle.textContent = state.restaurant.title;
+            elements.restaurantDescription.textContent = state.restaurant.description;
+            elements.restaurantHours.textContent = state.restaurant.hours;
+            elements.restaurantAddress.textContent = state.restaurant.address;
+            elements.restaurantRating.textContent = state.restaurant.rating;
+        }
+
+        // Update admin forms with current data
+        function updateAdminForms() {
+            // Restaurant settings
+            elements.adminRestaurantTitle.value = state.restaurant.title;
+            elements.adminRestaurantDescription.value = state.restaurant.description;
+            elements.adminRestaurantHours.value = state.restaurant.hours;
+            elements.adminRestaurantAddress.value = state.restaurant.address;
+            elements.adminRestaurantRating.value = state.restaurant.rating;
+            
+            // Config settings
+            elements.adminWhatsAppPhone.value = state.config.whatsappPhone;
+            elements.adminTelegramContact.value = state.config.telegramContact;
+        }
+
+        // Render categories
+        function renderCategories() {
+            elements.categoriesContainer.innerHTML = '';
+            
+            // Always show "Все блюда" first
+            const allCategory = state.categories.find(c => c.id === 'all');
+            if (allCategory) {
+                const button = createCategoryButton(allCategory);
+                elements.categoriesContainer.appendChild(button);
+            }
+            
+            // Show other categories (excluding "all")
+            state.categories
+                .filter(c => c.id !== 'all')
+                .forEach(category => {
+                    const button = createCategoryButton(category);
+                    elements.categoriesContainer.appendChild(button);
+                });
+        }
+
+        function createCategoryButton(category) {
+            const button = document.createElement('button');
+            button.className = `category-btn ${category.id === state.currentCategory ? 'active' : ''}`;
+            button.textContent = category.name;
+            button.dataset.id = category.id;
+            
+            button.addEventListener('click', () => {
+                state.currentCategory = category.id;
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                renderMenuItems();
+            });
+            
+            return button;
+        }
+
+        // Render menu items
+        function renderMenuItems() {
+            elements.menuItemsContainer.innerHTML = '';
+            
+            const filteredItems = state.currentCategory === 'all' 
+                ? state.menu 
+                : state.menu.filter(item => item.category === state.currentCategory);
+            
+            if (filteredItems.length === 0) {
+                elements.menuItemsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #888;">В этой категории пока нет блюд</p>';
+                return;
+            }
+            
+            filteredItems.forEach(item => {
+                const itemElement = createMenuItemElement(item);
+                elements.menuItemsContainer.appendChild(itemElement);
+            });
+        }
+
+        function createMenuItemElement(item) {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'menu-item';
+            itemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" class="item-image">
+                <div class="item-admin-controls">
+                    <button class="admin-edit-btn" data-id="${item.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="admin-delete-btn" data-id="${item.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="item-info">
+                    <div class="item-header">
+                        <h3 class="item-title">${item.name}</h3>
+                        <div class="item-price">${item.price} ₽</div>
+                    </div>
+                    <p class="item-description">${item.description}</p>
+                    <div class="item-footer">
+                        <div class="item-weight">${item.weight}</div>
+                        <button class="add-to-cart" data-id="${item.id}">
+                            <i class="fas fa-plus"></i> В корзину
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners
+            const addToCartBtn = itemElement.querySelector('.add-to-cart');
+            addToCartBtn.addEventListener('click', function() {
+                const itemId = parseInt(this.dataset.id);
+                addToCart(itemId);
+            });
+            
+            const editBtn = itemElement.querySelector('.admin-edit-btn');
+            editBtn.addEventListener('click', function() {
+                const itemId = parseInt(this.dataset.id);
+                editMenuItem(itemId);
+            });
+            
+            const deleteBtn = itemElement.querySelector('.admin-delete-btn');
+            deleteBtn.addEventListener('click', function() {
+                const itemId = parseInt(this.dataset.id);
+                deleteMenuItem(itemId);
+            });
+            
+            return itemElement;
+        }
+
+        // Render admin categories list
+        function renderAdminCategoriesList() {
+            elements.categoriesList.innerHTML = '';
+            
+            // Exclude "all" category from admin list (it's special)
+            const adminCategories = state.categories.filter(c => c.id !== 'all');
+            
+            if (adminCategories.length === 0) {
+                elements.categoriesList.innerHTML = '<div class="list-item">Нет категорий</div>';
+                return;
+            }
+            
+            adminCategories.forEach(category => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${category.name}</strong>
+                        <div style="font-size: 12px; color: #666;">ID: ${category.id}</div>
+                    </div>
+                    <div class="list-item-controls">
+                        <button class="list-item-btn edit" data-id="${category.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="list-item-btn delete" data-id="${category.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listeners
+                const editBtn = item.querySelector('.edit');
+                editBtn.addEventListener('click', function() {
+                    editCategory(category.id);
+                });
+                
+                const deleteBtn = item.querySelector('.delete');
+                deleteBtn.addEventListener('click', function() {
+                    deleteCategory(category.id);
+                });
+                
+                elements.categoriesList.appendChild(item);
+            });
+        }
+
+        // Render admin menu items list
+        function renderAdminMenuItemsList() {
+            elements.menuItemsList.innerHTML = '';
+            
+            if (state.menu.length === 0) {
+                elements.menuItemsList.innerHTML = '<div class="list-item">Нет блюд в меню</div>';
+                return;
+            }
+            
+            state.menu.forEach(item => {
+                const category = state.categories.find(c => c.id === item.category) || { name: 'Неизвестно' };
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'list-item';
+                itemElement.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong>
+                        <div style="font-size: 12px; color: #666;">
+                            ${item.price} ₽ • ${item.weight} • ${category.name}
+                        </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <button class="list-item-btn edit" data-id="${item.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="list-item-btn delete" data-id="${item.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listeners
+                const editBtn = itemElement.querySelector('.edit');
+                editBtn.addEventListener('click', function() {
+                    editMenuItem(item.id);
+                });
+                
+                const deleteBtn = itemElement.querySelector('.delete');
+                deleteBtn.addEventListener('click', function() {
+                    deleteMenuItem(item.id);
+                });
+                
+                elements.menuItemsList.appendChild(itemElement);
+            });
+        }
+
+        // Populate category select in admin form
+        function populateCategorySelect() {
+            elements.newItemCategory.innerHTML = '';
+            
+            // Exclude "all" category from select
+            const selectableCategories = state.categories.filter(c => c.id !== 'all');
+            
+            selectableCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                elements.newItemCategory.appendChild(option);
+            });
+        }
+
+        // Add item to cart
+        function addToCart(itemId) {
+            const item = state.menu.find(i => i.id === itemId);
+            
+            if (!item) return;
+            
+            const existingItem = state.cart.find(i => i.id === itemId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                state.cart.push({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showNotification(`${item.name} добавлен в корзину!`);
+        }
+
+        // Update cart UI
+        function updateCart() {
+            // Save cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            
+            // Update cart count
+            const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+            elements.cartCount.textContent = totalItems;
+            
+            // Update cart items
+            elements.cartItemsContainer.innerHTML = '';
+            
+            if (state.cart.length === 0) {
+                elements.cartItemsContainer.appendChild(elements.emptyCart);
+                elements.emptyCart.style.display = 'block';
+                elements.checkoutBtn.disabled = true;
+                elements.whatsappBtn.disabled = true;
+                elements.telegramBtn.disabled = true;
+            } else {
+                elements.emptyCart.style.display = 'none';
+                
+                state.cart.forEach(item => {
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.className = 'cart-item';
+                    cartItemElement.innerHTML = `
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <p>${item.price} ₽</p>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                            <span class="item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                            <button class="remove-item" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    elements.cartItemsContainer.appendChild(cartItemElement);
+                });
+                
+                // Add event listeners to cart controls
+                document.querySelectorAll('.quantity-btn.minus').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const itemId = parseInt(this.dataset.id);
+                        const item = state.cart.find(i => i.id === itemId);
+                        if (item) updateQuantity(itemId, item.quantity - 1);
+                    });
+                });
+                
+                document.querySelectorAll('.quantity-btn.plus').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const itemId = parseInt(this.dataset.id);
+                        const item = state.cart.find(i => i.id === itemId);
+                        if (item) updateQuantity(itemId, item.quantity + 1);
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const itemId = parseInt(this.dataset.id);
+                        removeFromCart(itemId);
+                    });
+                });
+                
+                elements.checkoutBtn.disabled = false;
+                elements.whatsappBtn.disabled = false;
+                elements.telegramBtn.disabled = false;
+            }
+            
+            // Update total price
+            const totalPrice = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            elements.totalPrice.textContent = `${totalPrice} ₽`;
+        }
+
+        // Update item quantity in cart
+        function updateQuantity(itemId, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(itemId);
+                return;
+            }
+            
+            const item = state.cart.find(i => i.id === itemId);
+            if (item) {
+                item.quantity = newQuantity;
+                updateCart();
+            }
+        }
+
+        // Remove item from cart
+        function removeFromCart(itemId) {
+            state.cart = state.cart.filter(item => item.id !== itemId);
+            updateCart();
+        }
+
+        // Clear cart
+        function clearCart() {
+            if (state.cart.length === 0) return;
+            
+            if (confirm('Очистить корзину?')) {
+                state.cart = [];
+                updateCart();
+                showNotification('Корзина очищена');
+            }
+        }
+
+        // Save restaurant settings
+        function saveRestaurantSettings() {
+            state.restaurant.title = elements.adminRestaurantTitle.value;
+            state.restaurant.description = elements.adminRestaurantDescription.value;
+            state.restaurant.hours = elements.adminRestaurantHours.value;
+            state.restaurant.address = elements.adminRestaurantAddress.value;
+            state.restaurant.rating = elements.adminRestaurantRating.value;
+            
+            saveData();
+            updateRestaurantInfo();
+            showAdminStatus('Настройки ресторана сохранены', 'success');
+        }
+
+        // Add new category
+        function addCategory() {
+            const name = elements.newCategoryName.value.trim();
+            const id = elements.newCategoryId.value.trim().toLowerCase();
+            
+            if (!name || !id) {
+                showAdminStatus('Заполните все поля', 'error');
+                return;
+            }
+            
+            // Check if category ID already exists (excluding "all")
+            if (state.categories.some(c => c.id === id && c.id !== 'all')) {
+                showAdminStatus('Категория с таким ID уже существует', 'error');
+                return;
+            }
+            
+            // Add new category
+            state.categories.push({ id, name });
+            
+            // Clear form
+            elements.newCategoryName.value = '';
+            elements.newCategoryId.value = '';
+            
+            // Update UI
+            saveData();
+            renderCategories();
+            renderAdminCategoriesList();
+            populateCategorySelect();
+            showAdminStatus(`Категория "${name}" добавлена`, 'success');
+        }
+
+        // Edit category
+        function editCategory(categoryId) {
+            const category = state.categories.find(c => c.id === categoryId);
+            if (!category) return;
+            
+            const newName = prompt('Введите новое название категории:', category.name);
+            if (newName && newName.trim()) {
+                category.name = newName.trim();
+                
+                saveData();
+                renderCategories();
+                renderAdminCategoriesList();
+                populateCategorySelect();
+                showAdminStatus(`Категория обновлена`, 'success');
+            }
+        }
+
+        // Delete category
+        function deleteCategory(categoryId) {
+            // Don't allow deleting "all" category
+            if (categoryId === 'all') {
+                showAdminStatus('Нельзя удалить категорию "Все блюда"', 'error');
+                return;
+            }
+            
+            // Check if any menu items use this category
+            const itemsInCategory = state.menu.filter(item => item.category === categoryId);
+            if (itemsInCategory.length > 0) {
+                if (!confirm(`В этой категории есть ${itemsInCategory.length} блюд(о). Они будут перемещены в категорию "Все блюда". Удалить категорию?`)) {
+                    return;
+                }
+                
+                // Move items to "all" category
+                itemsInCategory.forEach(item => {
+                    item.category = 'all';
+                });
+            }
+            
+            // Remove category
+            state.categories = state.categories.filter(c => c.id !== categoryId);
+            
+            saveData();
+            renderCategories();
+            renderAdminCategoriesList();
+            populateCategorySelect();
+            renderMenuItems();
+            renderAdminMenuItemsList();
+            showAdminStatus('Категория удалена', 'success');
+        }
+
+        // Add new menu item
+        function addMenuItem() {
+            // Check if we're editing or adding
+            if (state.editingItem) {
+                updateMenuItem();
+                return;
+            }
+            
+            const name = elements.newItemName.value.trim();
+            const description = elements.newItemDescription.value.trim();
+            const price = parseInt(elements.newItemPrice.value);
+            const weight = elements.newItemWeight.value.trim();
+            const category = elements.newItemCategory.value;
+            const image = elements.newItemImage.value.trim();
+            
+            if (!name || !description || !price || !weight || !category) {
+                showAdminStatus('Заполните обязательные поля', 'error');
+                return;
+            }
+            
+            // Generate new ID
+            const newId = state.menu.length > 0 ? Math.max(...state.menu.map(item => item.id)) + 1 : 1;
+            
+            // Add new item
+            state.menu.push({
+                id: newId,
+                name,
+                description,
+                price,
+                weight,
+                category,
+                image: image || 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+            });
+            
+            // Clear form
+            clearMenuItemForm();
+            
+            // Update UI
+            saveData();
+            renderMenuItems();
+            renderAdminMenuItemsList();
+            showAdminStatus(`Блюдо "${name}" добавлено`, 'success');
+        }
+
+        // Edit menu item
+        function editMenuItem(itemId) {
+            const item = state.menu.find(i => i.id === itemId);
+            if (!item) return;
+            
+            // Set editing mode
+            state.editingItem = itemId;
+            
+            // Populate form with item data
+            elements.newItemName.value = item.name;
+            elements.newItemDescription.value = item.description;
+            elements.newItemPrice.value = item.price;
+            elements.newItemWeight.value = item.weight;
+            elements.newItemCategory.value = item.category;
+            elements.newItemImage.value = item.image;
+            
+            // Change button text
+            elements.addMenuItemBtn.textContent = 'Сохранить изменения';
+            elements.addMenuItemBtn.classList.add('primary');
+            
+            // Scroll to form
+            switchAdminTab('menu');
+            document.querySelector('#menuTab').scrollIntoView({ behavior: 'smooth' });
+            
+            showAdminStatus(`Редактирование блюда "${item.name}"`, 'success');
+        }
+
+        // Update menu item
+        function updateMenuItem() {
+            const item = state.menu.find(i => i.id === state.editingItem);
+            if (!item) return;
+            
+            const name = elements.newItemName.value.trim();
+            const description = elements.newItemDescription.value.trim();
+            const price = parseInt(elements.newItemPrice.value);
+            const weight = elements.newItemWeight.value.trim();
+            const category = elements.newItemCategory.value;
+            const image = elements.newItemImage.value.trim();
+            
+            if (!name || !description || !price || !weight || !category) {
+                showAdminStatus('Заполните обязательные поля', 'error');
+                return;
+            }
+            
+            // Update item
+            item.name = name;
+            item.description = description;
+            item.price = price;
+            item.weight = weight;
+            item.category = category;
+            if (image) item.image = image;
+            
+            // Reset editing mode
+            state.editingItem = null;
+            
+            // Clear form
+            clearMenuItemForm();
+            
+            // Update UI
+            saveData();
+            renderMenuItems();
+            renderAdminMenuItemsList();
+            showAdminStatus(`Блюдо "${name}" обновлено`, 'success');
+        }
+
+        // Delete menu item
+        function deleteMenuItem(itemId) {
+            const item = state.menu.find(i => i.id === itemId);
+            if (!item) return;
+            
+            if (!confirm(`Удалить блюдо "${item.name}"?`)) {
+                return;
+            }
+            
+            // Remove from menu
+            state.menu = state.menu.filter(i => i.id !== itemId);
+            
+            // Remove from cart if present
+            state.cart = state.cart.filter(i => i.id !== itemId);
+            
+            saveData();
+            renderMenuItems();
+            renderAdminMenuItemsList();
+            updateCart();
+            showAdminStatus(`Блюдо "${item.name}" удалено`, 'success');
+        }
+
+        // Clear menu item form
+        function clearMenuItemForm() {
+            elements.newItemName.value = '';
+            elements.newItemDescription.value = '';
+            elements.newItemPrice.value = '';
+            elements.newItemWeight.value = '';
+            elements.newItemImage.value = '';
+            
+            // Reset button text if we were editing
+            if (state.editingItem) {
+                elements.addMenuItemBtn.textContent = 'Добавить блюдо';
+                state.editingItem = null;
+            }
+        }
+
+        // Save configuration
+        function saveConfig() {
+            state.config.whatsappPhone = elements.adminWhatsAppPhone.value.trim();
+            state.config.telegramContact = elements.adminTelegramContact.value.trim();
+            
+            saveData();
+            showAdminStatus('Настройки мессенджеров сохранены', 'success');
+        }
+
+        // Export data
+        function exportData() {
+            const exportData = {
+                menu: state.menu,
+                categories: state.categories,
+                restaurant: state.restaurant,
+                config: state.config,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `restik-data-${new Date().toISOString().slice(0,10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showAdminStatus('Данные экспортированы', 'success');
+        }
+
+        // Import data
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        
+                        // Validate imported data
+                        if (!importedData.menu || !importedData.categories || !importedData.restaurant || !importedData.config) {
+                            throw new Error('Некорректный формат файла');
+                        }
+                        
+                        // Confirm import
+                        if (!confirm(`Импортировать данные? Это заменит текущие ${state.menu.length} блюд и ${state.categories.length} категорий.`)) {
+                            return;
+                        }
+                        
+                        // Import data
+                        state.menu = importedData.menu;
+                        state.categories = importedData.categories;
+                        state.restaurant = importedData.restaurant;
+                        state.config = importedData.config;
+                        
+                        // Reset cart and current order
+                        state.cart = [];
+                        state.currentOrder = null;
+                        
+                        // Update everything
+                        saveData();
+                        updateRestaurantInfo();
+                        renderCategories();
+                        renderMenuItems();
+                        updateCart();
+                        renderAdminCategoriesList();
+                        renderAdminMenuItemsList();
+                        populateCategorySelect();
+                        updateAdminForms();
+                        
+                        showAdminStatus('Данные успешно импортированы', 'success');
+                    } catch (error) {
+                        showAdminStatus('Ошибка при импорте данных: ' + error.message, 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        // Reset data to initial
+        function resetData() {
+            if (!confirm('Вернуть все данные к начальным значениям? Это удалит все изменения.')) {
+                return;
+            }
+            
+            state.menu = [...initialData.menu];
+            state.categories = [...initialData.categories];
+            state.restaurant = {...initialData.restaurant};
+            state.config = {...initialData.config};
+            state.cart = [];
+            state.currentOrder = null;
+            
+            // Update everything
+            saveData();
+            updateRestaurantInfo();
+            renderCategories();
+            renderMenuItems();
+            updateCart();
+            renderAdminCategoriesList();
+            renderAdminMenuItemsList();
+            populateCategorySelect();
+            updateAdminForms();
+            
+            showAdminStatus('Данные сброшены к начальным значениям', 'success');
+        }
+
+        // Show admin status message
+        function showAdminStatus(message, type = 'success') {
+            elements.adminStatus.textContent = message;
+            elements.adminStatus.className = `status-message ${type}`;
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                elements.adminStatus.className = 'status-message';
+            }, 3000);
+        }
+
+        // The rest of the functions (for customer ordering) remain the same as before
+        function showCustomerModal() {
+            elements.customerModal.classList.add('active');
+        }
+
+        function hideCustomerModal() {
+            elements.customerModal.classList.remove('active');
+            elements.customerForm.reset();
+        }
+
+        function processOrder(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+            const comment = document.getElementById('customerComment').value;
+            
+            if (!name || !phone) {
+                alert('Пожалуйста, заполните обязательные поля (имя и телефон)');
+                return;
+            }
+            
+            // Prepare order data
+            const totalPrice = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderDetails = state.cart.map(item => `${item.name} x${item.quantity} = ${item.price * item.quantity} ₽`).join('\n');
+            
+            state.currentOrder = {
+                id: Date.now(),
+                date: new Date().toLocaleString('ru-RU'),
+                customer: { name, phone, address, comment },
+                items: [...state.cart],
+                total: totalPrice,
+                details: orderDetails
+            };
+            
+            // Save order to localStorage (for demo purposes)
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(state.currentOrder);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            hideCustomerModal();
+            showNotification('Заказ сохранен! Теперь вы можете отправить его в WhatsApp или Telegram');
+        }
+
+        function sendToWhatsApp() {
+            if (!state.currentOrder && state.cart.length === 0) {
+                showNotification('Сначала оформите заказ');
+                return;
+            }
+            
+            if (!state.currentOrder && state.cart.length > 0) {
+                showNotification('Сначала оформите заказ, нажав "Оформить заказ"');
+                return;
+            }
+            
+            const order = state.currentOrder;
+            const phone = state.config.whatsappPhone;
+            
+            // Format message for WhatsApp
+            const message = `Новый заказ из ${state.config.restaurantName}%0A%0A` +
+                           `Заказ #${order.id}%0A` +
+                           `Дата: ${order.date}%0A%0A` +
+                           `Клиент:%0A` +
+                           `Имя: ${order.customer.name}%0A` +
+                           `Телефон: ${order.customer.phone}%0A` +
+                           (order.customer.address ? `Адрес: ${order.customer.address}%0A` : '') +
+                           (order.customer.comment ? `Комментарий: ${order.customer.comment}%0A` : '') +
+                           `%0A` +
+                           `Заказ:%0A${order.details}%0A%0A` +
+                           `Итого: ${order.total} ₽%0A%0A` +
+                           `Ссылка на заказ: ${window.location.href}`;
+            
+            // Open WhatsApp with pre-filled message
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            
+            showNotification('Открывается WhatsApp для отправки заказа');
+        }
+
+        function sendToTelegram() {
+            if (!state.currentOrder && state.cart.length === 0) {
+                showNotification('Сначала оформите заказ');
+                return;
+            }
+            
+            if (!state.currentOrder && state.cart.length > 0) {
+                showNotification('Сначала оформите заказ, нажав "Оформить заказ"');
+                return;
+            }
+            
+            const order = state.currentOrder;
+            const contact = state.config.telegramContact;
+            
+            // Format message for Telegram
+            const message = `Новый заказ из ${state.config.restaurantName}\n\n` +
+                           `Заказ #${order.id}\n` +
+                           `Дата: ${order.date}\n\n` +
+                           `Клиент:\n` +
+                           `Имя: ${order.customer.name}\n` +
+                           `Телефон: ${order.customer.phone}\n` +
+                           (order.customer.address ? `Адрес: ${order.customer.address}\n` : '') +
+                           (order.customer.comment ? `Комментарий: ${order.customer.comment}\n` : '') +
+                           `\n` +
+                           `Заказ:\n${order.details}\n\n` +
+                           `Итого: ${order.total} ₽\n\n` +
+                           `Ссылка на заказ: ${window.location.href}`;
+            
+            // Open Telegram with pre-filled message
+            window.open(`https://t.me/${contact}`, '_blank');
+            
+            // For demo purposes, show the message so user can copy it
+            alert(`Скопируйте этот текст и отправьте в Telegram:\n\n${message}`);
+            
+            showNotification('Открывается Telegram. Скопируйте текст заказа из всплывающего окна');
+        }
+
+        function showNotification(message) {
+            // Remove existing notification if any
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: fadeIn 0.3s;
+            `;
+            
+            // Add styles for animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; transform: translateY(0); }
+                    to { opacity: 0; transform: translateY(20px); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.3s';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
